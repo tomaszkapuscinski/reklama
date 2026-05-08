@@ -16,7 +16,7 @@
     // TRYB DEBUGOWANIA
     pbjs.setConfig({
         debug: true,  // logi w konsoli przeglądarki
-        bidderTimeout: 3000
+        bidderTimeout: 30000
     });
 
     var adUnits = [
@@ -41,7 +41,7 @@
     pbjs.que.push(function() {
         pbjs.addAdUnits(adUnits);
         pbjs.requestBids({
-            timeout: 3000,
+            timeout: 30000,
             bidsBackHandler: function() {
                 var bids = pbjs.getHighestCpmBids('reklama_pix');
                 console.log('Oferty:', bids);
