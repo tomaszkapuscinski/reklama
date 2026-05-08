@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="prebid.js"></script>
+</head>
+<body>
+
+<div id="reklama_pix" style="width:100%; max-width:970px; min-height:250px; border:1px solid red;"></div>
+
+<script>
+    var pbjs = pbjs || {};
+    pbjs.que = pbjs.que || [];
+
+    // TRYB DEBUGOWANIA
+    pbjs.setConfig({
+        debug: true,  // logi w konsoli przeglądarki
+        bidderTimeout: 3000
+    });
+
+    var adUnits = [
+        {
+            code: 'reklama_pix',
+            mediaTypes: {
+                banner: {
+                    sizes: [[300, 250], [728, 90], [320, 50], [160, 600], [300, 600], [970, 250], [320, 100]]
+                }
+            },
+            bids: [
+                {
+                    bidder: 'pixfuture',
+                    params: {
+                        pix_id: 64574
+                    }
+                }
+            ]
+        },
+    ];
+
+    pbjs.que.push(function() {
+        pbjs.addAdUnits(adUnits);
+        pbjs.requestBids({
+            timeout: 3000,
+            bidsBackHandler: function() {
+                var bids = pbjs.getHighestCpmBids('reklama_pix');
+                console.log('Oferty:', bids);
+
+                if (bids.length > 0) {
+                    pbjs.renderAd(document, bids[0].adId);
+                } else {
+                    document.getElementById('reklama_pix').innerHTML =
+                        '<p style="color:red">Brak ofert — normalne na localhost</p>';
+                }
+            }
+        });
+    });
+</script>
+
+
+</body>
+</html>
